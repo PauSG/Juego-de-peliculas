@@ -5,16 +5,92 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Juego_de_películas"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Icon="assets/128.ico"
+        Title="Juego de películas" Height="475" MinHeight="475" Width="775" MinWidth="775">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="7,2"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <TabControl>
-            <TabItem Header="General">
-                <Label Content="Content goes here..." />
+            <TabItem Header="Jugar">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="500"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="assets/arrow.png" Height="20"/>
+                            <TextBlock>
+                                <Run>1</Run>
+                                <Run>/ 5</Run>
+                            </TextBlock>
+                            <Image Source="assets/arrow.png" Height="20" RenderTransformOrigin="0.5,0.5">
+                                <Image.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="180"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Image.RenderTransform>
+                            </Image>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <TextBlock>Cartel de la película</TextBlock>
+                        <Image Margin="10" Source="assets/episodioIV.jpg" Stretch="Uniform"></Image>
+                    </StackPanel>
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"></RowDefinition>
+                            <RowDefinition Height="70"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock>Puntuación</TextBlock>
+                            <TextBox Height="70" TextAlignment="Center" FontSize="50">100000000</TextBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+                            <Button Margin="0,20,0,10">Nueva Partida</Button>
+                            <Button>Finalizar Partida</Button>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock>Titulo de la película</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Padding="5" Margin="0,5,10,0" Width="400"></TextBox>
+                                <Button Margin="5,0,0,0" Height="25">Validar</Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <CheckBox Grid.Row="0" Content="Ver Pista"></CheckBox>
+                            <TextBlock Grid.Row="1" Margin="0,20">Pista</TextBlock>
+                            <Image Margin="0,0,0,20" Grid.Row="2" Source="assets/GeneroEspacial.png"></Image>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </TabItem>
-            
             <!-- Segunda pestaña -->
-            <TabItem Header="Security">
-                
+            <TabItem Header="Gestionar">
+                <TextBlock>hola deluxe</TextBlock>
             </TabItem>
         </TabControl>
     </Grid>
