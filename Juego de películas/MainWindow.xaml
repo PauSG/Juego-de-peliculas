@@ -13,12 +13,12 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <TabControl>
+        <TabControl SelectedIndex="1">
             <TabItem Header="Jugar">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="500"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -45,10 +45,10 @@
                         </StackPanel>
                     </StackPanel>
                     
-                    <StackPanel Grid.Row="0" Grid.Column="0">
-                        <TextBlock>Cartel de la película</TextBlock>
+                    <DockPanel Grid.Row="0" Grid.Column="0">
+                        <TextBlock DockPanel.Dock="Top">Cartel de la película</TextBlock>
                         <Image Margin="10" Source="assets/episodioIV.jpg" Stretch="Uniform"></Image>
-                    </StackPanel>
+                    </DockPanel>
 
                     <Grid Grid.Row="0" Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -90,7 +90,56 @@
             </TabItem>
             <!-- Segunda pestaña -->
             <TabItem Header="Gestionar">
-                <TextBlock>hola deluxe</TextBlock>
+                <DockPanel>
+                    <DockPanel Margin="10,0,0,0"  Width="190" DockPanel.Dock="Right" LastChildFill="False">
+                        <StackPanel Margin="0,0,0,40" DockPanel.Dock="Top">
+                            <Button Margin="0,0,0,5">Cargar de JSON</Button>
+                            <Button>Guardar en JSON</Button>
+                        </StackPanel>
+                        <Button DockPanel.Dock="Bottom" Margin="0,0,0,150">Examinar</Button>
+                        <StackPanel Width="200">
+                            <Button Margin="0,0,0,5">Añadir película</Button>
+                            <Button Margin="0,0,0,5">Editar película</Button>
+                            <Button Margin="0,0,0,0">Eliminar película</Button>
+                        </StackPanel>
+                    </DockPanel>
+                    <StackPanel Margin="10,0,0,0" DockPanel.Dock="Bottom">
+                        <TextBlock Margin="0,0,0,5">Título de la película</TextBlock>
+                        <TextBox Margin="0,0,0,5"></TextBox>
+                        <TextBlock Margin="0,0,0,5">Pista de la película</TextBlock>
+                        <TextBox Margin="0,0,0,5"></TextBox>
+                        <TextBlock Margin="0,0,0,5">Imágen de la película</TextBlock>
+                        <TextBox Margin="0,0,0,10"></TextBox>
+                        <StackPanel Margin="10,0,0,20" Orientation="Horizontal">
+                            <TextBlock Margin="0,0,10,0">Nivel de dificultad</TextBlock>
+                            <ComboBox SelectedIndex="0">
+                                <ComboBoxItem>Item 1</ComboBoxItem>
+                                <ComboBoxItem>Item 2</ComboBoxItem>
+                            </ComboBox>
+                            <TextBlock Margin="50,0,10,0">Género</TextBlock>
+                            <ComboBox SelectedIndex="0">
+                                <ComboBoxItem>Item 1</ComboBoxItem>
+                                <ComboBoxItem>Item 2</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding Path=ListaPeliculas}" SelectedItem="{Binding Path=PeliculaActual}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel></WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <!--Aqui iria cada item-->
+                                <StackPanel>
+                                    <Image></Image>
+                                    <TextBlock>Titulo</TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
             </TabItem>
         </TabControl>
     </Grid>
