@@ -82,7 +82,7 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <CheckBox Grid.Row="0" Content="Ver Pista"></CheckBox>
-                            <TextBlock Grid.Row="1" Margin="0,20">Pista</TextBlock>
+                            <TextBlock Grid.Row="1" Margin="0,20" Text="{Binding Path=PeliculaActual.Pista}">Pista</TextBlock>
                             <Image Margin="0,0,0,20" Grid.Row="2" Source="assets/GeneroEspacial.png"></Image>
                         </Grid>
                     </Grid>
@@ -93,37 +93,32 @@
                 <DockPanel>
                     <DockPanel Margin="10,0,0,0"  Width="190" DockPanel.Dock="Right" LastChildFill="False">
                         <StackPanel Margin="0,0,0,40" DockPanel.Dock="Top">
-                            <Button Margin="0,0,0,5">Cargar de JSON</Button>
-                            <Button>Guardar en JSON</Button>
+                            <Button Margin="0,0,0,5" Click="CargarJsonButton_Click">Cargar de JSON</Button>
+                            <Button Click="GuardarJsonButton_Click">Guardar en JSON</Button>
                         </StackPanel>
                         <Button DockPanel.Dock="Bottom" Margin="0,0,0,150">Examinar</Button>
-                        <StackPanel Width="200">
+                        <StackPanel Width="190">
                             <Button Margin="0,0,0,5">Añadir película</Button>
-                            <Button Margin="0,0,0,5">Editar película</Button>
-                            <Button Margin="0,0,0,0">Eliminar película</Button>
+                            <Button Margin="0,0,0,5" Click="EditarPeliculaButton_Click">Editar película</Button>
+                            <Button Margin="0,0,0,5" Click="ConfirmarEdicionButton_Click">Confirmar edición</Button>
+                            <Button Background="Red" Margin="0,0,0,0">Eliminar película</Button>
                         </StackPanel>
                     </DockPanel>
-                    <StackPanel Margin="10,0,0,0" DockPanel.Dock="Bottom">
+                    <StackPanel IsEnabled="{Binding Path=Editar}" Margin="10,0,0,0" DockPanel.Dock="Bottom">
                         <TextBlock Margin="0,0,0,5">Título de la película</TextBlock>
-                        <TextBox Margin="0,0,0,5"></TextBox>
+                        <TextBox Text="{Binding Path=PeliculaActual.Titulo}" Margin="0,0,0,5"></TextBox>
                         <TextBlock Margin="0,0,0,5">Pista de la película</TextBlock>
-                        <TextBox Margin="0,0,0,5"></TextBox>
+                        <TextBox Text="{Binding Path=PeliculaActual.Pista}" Margin="0,0,0,5"></TextBox>
                         <TextBlock Margin="0,0,0,5">Imágen de la película</TextBlock>
-                        <TextBox Margin="0,0,0,10"></TextBox>
+                        <TextBox Text="{Binding Path=PeliculaActual.Cartel}" Margin="0,0,0,10"></TextBox>
                         <StackPanel Margin="10,0,0,20" Orientation="Horizontal">
                             <TextBlock Margin="0,0,10,0">Nivel de dificultad</TextBlock>
-                            <ComboBox SelectedIndex="0">
-                                <ComboBoxItem>Item 1</ComboBoxItem>
-                                <ComboBoxItem>Item 2</ComboBoxItem>
-                            </ComboBox>
+                            <ComboBox Width="70" ItemsSource="{Binding Path=TipoNivel}" SelectedItem="{Binding Path=PeliculaActual.Nivel}"></ComboBox>
                             <TextBlock Margin="50,0,10,0">Género</TextBlock>
-                            <ComboBox SelectedIndex="0">
-                                <ComboBoxItem>Item 1</ComboBoxItem>
-                                <ComboBoxItem>Item 2</ComboBoxItem>
-                            </ComboBox>
+                            <ComboBox Width="100" ItemsSource="{Binding Path=TipoGenero}" SelectedItem="{Binding Path=PeliculaActual.Genero}"></ComboBox>
                         </StackPanel>
                     </StackPanel>
-                    <ListBox ItemsSource="{Binding Path=ListaPeliculas}" SelectedItem="{Binding Path=PeliculaActual}">
+                    <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path=ListaPeliculas}" SelectedItem="{Binding Path=PeliculaActual}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel></WrapPanel>
@@ -132,9 +127,9 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <!--Aqui iria cada item-->
-                                <StackPanel>
-                                    <Image></Image>
-                                    <TextBlock>Titulo</TextBlock>
+                                <StackPanel Margin="0,0,10,15">
+                                    <Image Source="{Binding Path=Cartel}" Height="150"></Image>
+                                    <TextBlock Text="{Binding Path=Titulo}" TextAlignment="Center" FontSize="14"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
