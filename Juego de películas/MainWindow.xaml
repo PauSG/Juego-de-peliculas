@@ -21,10 +21,55 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="CheckBox" x:Key="PistaCheckBox">
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Image" x:Key="BlurEffect">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Nivel}" Value="Fácil">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <BlurEffect Radius="5"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Nivel}" Value="Media">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <BlurEffect Radius="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Nivel}" Value="Difícil">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <BlurEffect Radius="20"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DockPanel" x:Key="fondoSegunDificultad">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Nivel}" Value="Fácil">
+                    <Setter Property="Background" Value="ForestGreen"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Nivel}" Value="Media">
+                    <Setter Property="Background" Value="DarkOrange"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Nivel}" Value="Difícil">
+                    <Setter Property="Background" Value="DarkRed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <TabControl SelectedIndex="1">
-            <TabItem Header="Jugar" Template="{DynamicResource TabItemControlTemplateJugar}">
+            <TabItem IsEnabled="{Binding Path=JsonCargado}" Header="Jugar" Template="{DynamicResource TabItemControlTemplateJugar}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -55,9 +100,9 @@
                         </StackPanel>
                     </StackPanel>
                     
-                    <DockPanel Grid.Row="0" Grid.Column="0">
-                        <TextBlock DockPanel.Dock="Top">Cartel de la película</TextBlock>
-                        <Image Margin="10" Source="assets/episodioIV.jpg" Stretch="Uniform"></Image>
+                    <DockPanel Style="{StaticResource fondoSegunDificultad}" Grid.Row="0" Grid.Column="0">
+                        <TextBlock TextAlignment="Center" FontWeight="DemiBold" FontSize="20" DockPanel.Dock="Top" TextDecorations="Underline">Cartel de la película</TextBlock>
+                        <Image Style="{StaticResource BlurEffect}" Margin="10" Source="{Binding Path=PeliculaActual.Cartel}" Stretch="Uniform"></Image>
                     </DockPanel>
 
                     <Grid Grid.Row="0" Grid.Column="1">
@@ -72,7 +117,7 @@
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" Grid.Column="0">
                             <TextBlock>Puntuación</TextBlock>
-                            <TextBox Height="70" TextAlignment="Center" FontSize="50">100000000</TextBox>
+                            <TextBox IsReadOnly="True" Text="{Binding Path=Puntuacion, Mode=TwoWay}" Height="70" TextAlignment="Center" FontSize="50"></TextBox>
                         </StackPanel>
                         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
                             <Button Margin="0,20,0,10" Click="NuevaPartidaButton_Click">Nueva Partida</Button>
@@ -81,8 +126,8 @@
                         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                             <TextBlock>Titulo de la película</TextBlock>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Padding="5" Margin="0,5,10,0" Width="300"></TextBox>
-                                <Button Margin="5,0,0,0" Height="25" IsDefault="True" Click="ValidarButton_Click">Validar</Button>
+                                <TextBox Text="{Binding Path=TituloTextBox, Mode=TwoWay}" Padding="5" Margin="0,5,10,0" Width="300"></TextBox>
+                                <Button Margin="5,0,0,0" Height="25" Click="ValidarButton_Click">Validar</Button>
                             </StackPanel>
                         </StackPanel>
                         <Grid Grid.Row="2" Grid.ColumnSpan="2">
@@ -91,7 +136,7 @@
                                 <RowDefinition Height="70"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <CheckBox x:Name="PistaCheckBox" Grid.Row="0" Content="Ver Pista"></CheckBox>
+                            <CheckBox Style="{StaticResource PistaCheckBox}" x:Name="PistaCheckBox" Grid.Row="0" Content="Ver Pista"></CheckBox>
                             <TextBlock Style="{StaticResource PistaTextBlock}" Grid.Row="1" Margin="0,20" Text="{Binding Path=PeliculaActual.Pista}"></TextBlock>
                             <Image Margin="0,0,0,20" Grid.Row="2" Source="assets/GeneroEspacial.png"></Image>
                         </Grid>
@@ -99,14 +144,14 @@
                 </Grid>
             </TabItem>
             <!-- Segunda pestaña -->
-            <TabItem Header="Gestionar" Template="{DynamicResource TabItemControlTemplateGestionar}">
+            <TabItem IsEnabled="{Binding Path=JuegoInactivo}" Header="Gestionar" Template="{DynamicResource TabItemControlTemplateGestionar}">
                 <DockPanel>
                     <DockPanel Margin="10,0,0,0"  Width="190" DockPanel.Dock="Right" LastChildFill="False">
                         <StackPanel Margin="0,0,0,40" DockPanel.Dock="Top">
                             <Button Margin="0,0,0,5" Click="CargarJsonButton_Click">Cargar de JSON</Button>
                             <Button Click="GuardarJsonButton_Click">Guardar en JSON</Button>
                         </StackPanel>
-                        <Button DockPanel.Dock="Bottom" Margin="0,0,0,150">Examinar</Button>
+                        <Button DockPanel.Dock="Bottom" Margin="0,0,0,150" Click="ConfirmarAñadirButton_Click">Confirmar y añadir película</Button>
                         <StackPanel Width="190">
                             <Button Margin="0,0,0,5" Click="AñadirPeliculaButton_Click">Añadir película</Button>
                             <Button Margin="0,0,0,5" Click="EditarPeliculaButton_Click">Editar película/s</Button>

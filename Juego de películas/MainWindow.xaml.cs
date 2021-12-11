@@ -69,5 +69,10 @@ namespace Juego_de_películas
         {
             vm.Validar();
         }
+
+        private void ConfirmarAñadirButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.ConfirmarAñadir();
+        }
     }
 }
