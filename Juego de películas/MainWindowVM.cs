@@ -13,6 +13,7 @@ namespace Juego_de_películas
 {
     class MainWindowVM : INotifyPropertyChanged
     {
+        bool informarSobreModificaciones = false;
         public MainWindowVM()
         {
             tipoNivel = new List<string>() { "Fácil", "Media", "Difícil" };
@@ -81,7 +82,20 @@ namespace Juego_de_películas
             }
         }
 
+        public void NuevaPartida()
+        {
+            Random rnd = new Random();
+            int indiceAleatorio = rnd.Next(0, ListaPeliculas.Count);
+            PeliculaActual = ListaPeliculas[indiceAleatorio];
+        }
+        public void FinalizarPartida()
+        {
+            MessageBox.Show("Partida Finalizada\nLa pelicula era " + PeliculaActual.Titulo);
+        }
+        public void Validar()
+        {
 
+        }
         public void CargarJson()
         {
             try
@@ -95,7 +109,7 @@ namespace Juego_de_películas
             }
             catch (JsonReaderException)
             {
-                MessageBox.Show("El archivo selecionado no es un JSON");
+                MessageBox.Show("El archivo selecionado no es un JSON", "Extensión erronea", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         public void GuardarJson()
@@ -109,11 +123,36 @@ namespace Juego_de_películas
         }
         public void EditarPelicula()
         {
-            Editar = true;
+            if (PeliculaActual != null)
+            {
+                Editar = true;
+            }
         }
         public void ConfirmarEdicion()
         {
             Editar = false;
+            if (!informarSobreModificaciones)
+            {
+                MessageBox.Show("Para registrar y guardar cualquier modificacion (Editar, añadir o eliminar película) antes de cerrar la aplicación darle al boton de \"Guardar en JSON\"", "Información Sobre las modificaciones", MessageBoxButton.OK, MessageBoxImage.Information);
+                informarSobreModificaciones = true;
+            }
+        }
+        public void AñadirPelicula()
+        {
+
+            if (!informarSobreModificaciones)
+            {
+                MessageBox.Show("Para registrar y guardar cualquier modificacion (Editar, añadir o eliminar película) antes de cerrar la aplicación darle al boton de \"Guardar en JSON\"", "Información Sobre las modificaciones", MessageBoxButton.OK, MessageBoxImage.Information); informarSobreModificaciones = true;
+            }
+        }
+        public void EliminarPelicula()
+        {
+            ListaPeliculas.Remove(PeliculaActual);
+
+            if (!informarSobreModificaciones)
+            {
+                MessageBox.Show("Para registrar y guardar cualquier modificacion (Editar, añadir o eliminar película) antes de cerrar la aplicación darle al boton de \"Guardar en JSON\"", "Información Sobre las modificaciones", MessageBoxButton.OK, MessageBoxImage.Information); informarSobreModificaciones = true;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

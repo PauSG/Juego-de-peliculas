@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Juego_de_películas
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         MainWindowVM vm = new MainWindowVM();
@@ -45,6 +42,32 @@ namespace Juego_de_películas
         private void ConfirmarEdicionButton_Click(object sender, RoutedEventArgs e)
         {
             vm.ConfirmarEdicion();
+        }
+
+        private void EliminarPeliculaButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.EliminarPelicula();
+        }
+
+        private void AñadirPeliculaButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.AñadirPelicula();
+        }
+
+        private void NuevaPartidaButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.NuevaPartida();
+        }
+
+        private void FinalizarPartidaButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.FinalizarPartida();
+            PistaCheckBox.IsChecked = false;
+        }
+
+        private void ValidarButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.Validar();
         }
     }
 }

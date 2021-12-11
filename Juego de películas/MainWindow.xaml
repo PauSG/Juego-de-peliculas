@@ -6,15 +6,25 @@
         xmlns:local="clr-namespace:Juego_de_películas"
         mc:Ignorable="d"
         Icon="assets/128.ico"
-        Title="Juego de películas" Height="475" MinHeight="475" Width="775" MinWidth="775">
+        Title="Juego de películas" Height="475" MinHeight="475" Width="891" MinWidth="775">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Padding" Value="7,2"/>
         </Style>
+        <Style TargetType="TextBlock" x:Key="PistaTextBlock">
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="DarkSlateBlue"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=PistaCheckBox, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <TabControl SelectedIndex="1">
-            <TabItem Header="Jugar">
+            <TabItem Header="Jugar" Template="{DynamicResource TabItemControlTemplateJugar}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -65,14 +75,14 @@
                             <TextBox Height="70" TextAlignment="Center" FontSize="50">100000000</TextBox>
                         </StackPanel>
                         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
-                            <Button Margin="0,20,0,10">Nueva Partida</Button>
-                            <Button>Finalizar Partida</Button>
+                            <Button Margin="0,20,0,10" Click="NuevaPartidaButton_Click">Nueva Partida</Button>
+                            <Button Click="FinalizarPartidaButton_Click">Finalizar Partida</Button>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                             <TextBlock>Titulo de la película</TextBlock>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Padding="5" Margin="0,5,10,0" Width="400"></TextBox>
-                                <Button Margin="5,0,0,0" Height="25">Validar</Button>
+                                <TextBox Padding="5" Margin="0,5,10,0" Width="300"></TextBox>
+                                <Button Margin="5,0,0,0" Height="25" IsDefault="True" Click="ValidarButton_Click">Validar</Button>
                             </StackPanel>
                         </StackPanel>
                         <Grid Grid.Row="2" Grid.ColumnSpan="2">
@@ -81,15 +91,15 @@
                                 <RowDefinition Height="70"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Row="0" Content="Ver Pista"></CheckBox>
-                            <TextBlock Grid.Row="1" Margin="0,20" Text="{Binding Path=PeliculaActual.Pista}">Pista</TextBlock>
+                            <CheckBox x:Name="PistaCheckBox" Grid.Row="0" Content="Ver Pista"></CheckBox>
+                            <TextBlock Style="{StaticResource PistaTextBlock}" Grid.Row="1" Margin="0,20" Text="{Binding Path=PeliculaActual.Pista}"></TextBlock>
                             <Image Margin="0,0,0,20" Grid.Row="2" Source="assets/GeneroEspacial.png"></Image>
                         </Grid>
                     </Grid>
                 </Grid>
             </TabItem>
             <!-- Segunda pestaña -->
-            <TabItem Header="Gestionar">
+            <TabItem Header="Gestionar" Template="{DynamicResource TabItemControlTemplateGestionar}">
                 <DockPanel>
                     <DockPanel Margin="10,0,0,0"  Width="190" DockPanel.Dock="Right" LastChildFill="False">
                         <StackPanel Margin="0,0,0,40" DockPanel.Dock="Top">
@@ -98,10 +108,10 @@
                         </StackPanel>
                         <Button DockPanel.Dock="Bottom" Margin="0,0,0,150">Examinar</Button>
                         <StackPanel Width="190">
-                            <Button Margin="0,0,0,5">Añadir película</Button>
-                            <Button Margin="0,0,0,5" Click="EditarPeliculaButton_Click">Editar película</Button>
+                            <Button Margin="0,0,0,5" Click="AñadirPeliculaButton_Click">Añadir película</Button>
+                            <Button Margin="0,0,0,5" Click="EditarPeliculaButton_Click">Editar película/s</Button>
                             <Button Margin="0,0,0,5" Click="ConfirmarEdicionButton_Click">Confirmar edición</Button>
-                            <Button Background="Red" Margin="0,0,0,0">Eliminar película</Button>
+                            <Button Margin="0,0,0,0" Template="{DynamicResource ButtonControlTemplateEliminarPelicula}" Click="EliminarPeliculaButton_Click">Eliminar película</Button>
                         </StackPanel>
                     </DockPanel>
                     <StackPanel IsEnabled="{Binding Path=Editar}" Margin="10,0,0,0" DockPanel.Dock="Bottom">
