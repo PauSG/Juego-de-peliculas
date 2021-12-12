@@ -260,7 +260,7 @@ namespace Juego_de_películas
                     {
                         MessageBox.Show("La película Ya existia y no se a añadido nuevamente", "Coincidencia Encontrada", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
-                    editar = false;
+                    Editar = false;
                 }
                 else
                 {
