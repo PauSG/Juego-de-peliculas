@@ -66,6 +66,25 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Image" x:Key="Genero">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Genero}" Value="Comedia">
+                    <Setter Property="Source" Value="assets/GeneroComedia.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Genero}" Value="Acción">
+                    <Setter Property="Source" Value="assets/GeneroAccion.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Genero}" Value="Ciencia-ficción">
+                    <Setter Property="Source" Value="assets/GeneroCienciaFiccion.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Genero}" Value="Drama">
+                    <Setter Property="Source" Value="assets/GeneroDrama.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=PeliculaActual.Genero}" Value="Terror">
+                    <Setter Property="Source" Value="assets/GeneroTerror.png"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <TabControl SelectedIndex="1">
@@ -77,35 +96,14 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
-                    
-                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="assets/arrow.png" Height="20"/>
-                            <TextBlock>
-                                <Run>1</Run>
-                                <Run>/ 5</Run>
-                            </TextBlock>
-                            <Image Source="assets/arrow.png" Height="20" RenderTransformOrigin="0.5,0.5">
-                                <Image.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform Angle="180"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Image.RenderTransform>
-                            </Image>
-                        </StackPanel>
-                    </StackPanel>
                     
                     <DockPanel Style="{StaticResource fondoSegunDificultad}" Grid.Row="0" Grid.Column="0">
                         <TextBlock TextAlignment="Center" FontWeight="DemiBold" FontSize="20" DockPanel.Dock="Top" TextDecorations="Underline">Cartel de la película</TextBlock>
                         <Image Style="{StaticResource BlurEffect}" Margin="10" Source="{Binding Path=PeliculaActual.Cartel}" Stretch="Uniform"></Image>
                     </DockPanel>
 
-                    <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid Margin="5,0,0,0" Grid.Row="0" Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -138,7 +136,7 @@
                             </Grid.RowDefinitions>
                             <CheckBox Style="{StaticResource PistaCheckBox}" x:Name="PistaCheckBox" Grid.Row="0" Content="Ver Pista"></CheckBox>
                             <TextBlock Style="{StaticResource PistaTextBlock}" Grid.Row="1" Margin="0,20" Text="{Binding Path=PeliculaActual.Pista}"></TextBlock>
-                            <Image Margin="0,0,0,20" Grid.Row="2" Source="assets/GeneroEspacial.png"></Image>
+                            <Image Style="{StaticResource Genero}"  Margin="0,0,0,20" Grid.Row="2"></Image>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -140,7 +140,17 @@
     <Resource Include="assets\128.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="assets\GeneroEspacial.png" />
+    <Resource Include="assets\GeneroCienciaFiccion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\GeneroComedia.png" />
+    <Resource Include="assets\GeneroTerror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\GeneroDrama.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\GeneroAccion.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

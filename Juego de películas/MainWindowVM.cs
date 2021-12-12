@@ -135,27 +135,31 @@ namespace Juego_de_películas
 
         public void NuevaPartida()
         {
-            JuegoInactivo = false;
-            listaJuego = new List<Pelicula>();
-            Random rnd = new Random();
-            Pelicula nuevaPelicula;
-            try
+            if (ListaPeliculas.Count >= 5)
             {
-                for (int i = 0; i < 5; i++)
+                JuegoInactivo = false;
+                listaJuego = new List<Pelicula>();
+                Random rnd = new Random();
+                Pelicula nuevaPelicula;
+                try
                 {
-                    do
+                    for (int i = 0; i < 5; i++)
                     {
-                        int indiceAleatorio = rnd.Next(0, ListaPeliculas.Count);
-                        nuevaPelicula = ListaPeliculas[indiceAleatorio];
-                    } while (listaJuego.Contains(nuevaPelicula));
-                    listaJuego.Add(nuevaPelicula);
+                        do
+                        {
+                            int indiceAleatorio = rnd.Next(0, ListaPeliculas.Count);
+                            nuevaPelicula = ListaPeliculas[indiceAleatorio];
+                        } while (listaJuego.Contains(nuevaPelicula));
+                        listaJuego.Add(nuevaPelicula);
+                    }
+                    PeliculaActual = listaJuego[0];
                 }
-                PeliculaActual = listaJuego[0];
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show("No hay cargada ninguna pelicula en la gestion");
+                }
             }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show("No hay cargada ninguna pelicula en la gestion");
-            }
+            else MessageBox.Show("Tiene que haber almenos 5 Peliculas en la lista para poder empezar una partida");
 
         }
         public void FinalizarPartida()
@@ -169,7 +173,7 @@ namespace Juego_de_películas
         public void Validar()
         {
             if (QuitarAcentos(TituloTextBox).ToLower().Equals(QuitarAcentos(PeliculaActual.Titulo.ToLower())))
-            { //ALomejor hay que mover todo a un metodo que sea AñadirPuntuacion() en una Clase Partida
+            { //ALomejor hay que mover todo a un metodo que sea AñadirPuntuacion() en una Clase Partida y ver el tema de que si hay pista activa puntuacion/2
                 switch (PeliculaActual.Nivel)
                 {
                     case "Fácil":
