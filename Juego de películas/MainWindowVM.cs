@@ -195,13 +195,14 @@ namespace Juego_de_películas
                         }
                     }
                     SiguientePelicula();
-                    TituloTextBox = "";
+                    
                     PistaActivada = false;
                 }
                 else
                 {
                     MessageBox.Show("Te has equivocado de película, intentalo otra vez");
                 }
+                TituloTextBox = "";
             }
         }
         public void SiguientePelicula()
