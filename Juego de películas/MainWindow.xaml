@@ -118,14 +118,14 @@
                             <TextBox IsReadOnly="True" Text="{Binding Path=Puntuacion, Mode=TwoWay}" Height="70" TextAlignment="Center" FontSize="50"></TextBox>
                         </StackPanel>
                         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
-                            <Button Margin="0,20,0,10" Click="NuevaPartidaButton_Click">Nueva Partida</Button>
-                            <Button Click="FinalizarPartidaButton_Click">Finalizar Partida</Button>
+                            <Button Margin="0,20,0,10" Click="NuevaPartidaButton_Click" IsEnabled="{Binding Path=JuegoInactivo}">Nueva Partida</Button>
+                            <Button Click="FinalizarPartidaButton_Click" IsEnabled="{Binding Path=JuegoActivo}">Finalizar Partida</Button>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                             <TextBlock>Titulo de la película</TextBlock>
                             <StackPanel Orientation="Horizontal">
                                 <TextBox Text="{Binding Path=TituloTextBox, Mode=TwoWay}" Padding="5" Margin="0,5,10,0" Width="300"></TextBox>
-                                <Button Margin="5,0,0,0" Height="25" Click="ValidarButton_Click">Validar</Button>
+                                <Button Margin="5,0,0,0" Height="25" IsEnabled="{Binding JuegoActivo}" Click="ValidarButton_Click">Validar</Button>
                             </StackPanel>
                         </StackPanel>
                         <Grid Grid.Row="2" Grid.ColumnSpan="2">

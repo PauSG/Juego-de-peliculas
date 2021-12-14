@@ -9,18 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Globalization;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Juego_de_películas
 {
-    class MainWindowVM : INotifyPropertyChanged
+    class MainWindowVM : ObservableObject
     {
+        List<Pelicula> listaJuego;
         bool informarSobreModificaciones = false;
         bool sePuedeAñadirPelicula = false;
-        List<Pelicula> listaJuego;
         public MainWindowVM()
         {
             tipoNivel = new List<string>() { "Fácil", "Media", "Difícil" };
             tipoGenero = new List<string>() { "Comedia", "Drama", "Acción", "Terror", "Ciencia-ficción" };
+            listaPeliculas = new ObservableCollection<Pelicula>();
             editar = false;
             Puntuacion = 0;
             JuegoInactivo = true;
@@ -31,45 +33,21 @@ namespace Juego_de_películas
         public bool JsonCargado
         {
             get { return jsonCargado; }
-            set
-            {
-                jsonCargado = value;
-                this.NotifyPropertyChanged("JsonCargado");
-            }
-        }
-
-        private bool juegoInactivo;
-
-        public bool JuegoInactivo
-        {
-            get { return juegoInactivo; }
-            set
-            {
-                juegoInactivo = value;
-                this.NotifyPropertyChanged("JuegoInactivo");
-            }
+            set { SetProperty(ref jsonCargado, value); }
         }
 
         private string tituloTextBox;
         public string TituloTextBox
         {
             get { return tituloTextBox; }
-            set
-            {
-                tituloTextBox = value;
-                this.NotifyPropertyChanged("TituloTextBox");
-            }
+            set { SetProperty(ref tituloTextBox, value); }
         }
 
         private int puntuacion;
         public int Puntuacion
         {
             get { return puntuacion; }
-            set
-            {
-                puntuacion = value;
-                this.NotifyPropertyChanged("Puntuacion");
-            }
+            set { SetProperty(ref puntuacion, value); }
         }
 
         private List<String> tipoNivel;
@@ -77,11 +55,7 @@ namespace Juego_de_películas
         public List<String> TipoNivel
         {
             get { return tipoNivel; }
-            set
-            {
-                tipoNivel = value;
-                this.NotifyPropertyChanged("TipoNivel");
-            }
+            set { SetProperty(ref tipoNivel, value); }
         }
 
         private List<string> tipoGenero;
@@ -89,11 +63,7 @@ namespace Juego_de_películas
         public List<string> TipoGenero
         {
             get { return tipoGenero; }
-            set
-            {
-                tipoGenero = value;
-                this.NotifyPropertyChanged("TipoGenero");
-            }
+            set { SetProperty(ref tipoGenero, value); }
         }
 
 
@@ -102,11 +72,7 @@ namespace Juego_de_películas
         public ObservableCollection<Pelicula> ListaPeliculas
         {
             get { return listaPeliculas; }
-            set
-            {
-                listaPeliculas = value;
-                this.NotifyPropertyChanged("ListaPeliculas");
-            }
+            set { SetProperty(ref listaPeliculas, value); }
         }
 
 
@@ -115,30 +81,42 @@ namespace Juego_de_películas
         public Pelicula PeliculaActual
         {
             get { return peliculaActual; }
-            set
-            {
-                peliculaActual = value;
-                this.NotifyPropertyChanged("PeliculaActual");
-            }
+            set { SetProperty(ref peliculaActual, value); }
         }
         private bool editar;
 
         public bool Editar
         {
             get { return editar; }
-            set
-            {
-                editar = value;
-                this.NotifyPropertyChanged("Editar");
-            }
+            set { SetProperty(ref editar, value); }
         }
+
+
+
+        private bool juegoInactivo;
+
+        public bool JuegoInactivo
+        {
+            get { return juegoInactivo; }
+            set { SetProperty(ref juegoInactivo, value); }
+        }
+
+        private bool juegoActivo;
+            
+        public bool JuegoActivo
+        {
+            get { return juegoActivo; }
+            set { SetProperty(ref juegoActivo, value); }
+        }
+
 
         public void NuevaPartida()
         {
             if (ListaPeliculas.Count >= 5)
             {
-                JuegoInactivo = false;
                 listaJuego = new List<Pelicula>();
+                JuegoInactivo = false;
+                JuegoActivo = true;
                 Random rnd = new Random();
                 Pelicula nuevaPelicula;
                 try
@@ -168,25 +146,29 @@ namespace Juego_de_películas
             MessageBox.Show("Tu puntuacion final ha sido de " + Puntuacion, "Partida Finalizada");
             Puntuacion = 0;
             JuegoInactivo = true;
+            JuegoActivo = false;
             PeliculaActual = null;
         }
         public void Validar()
         {
-            if (QuitarAcentos(TituloTextBox).ToLower().Equals(QuitarAcentos(PeliculaActual.Titulo.ToLower())))
-            { //ALomejor hay que mover todo a un metodo que sea AñadirPuntuacion() en una Clase Partida y ver el tema de que si hay pista activa puntuacion/2
-                switch (PeliculaActual.Nivel)
+            if (TituloTextBox != null)
+            {
+                if (QuitarAcentos(TituloTextBox).ToLower().Equals(QuitarAcentos(PeliculaActual.Titulo.ToLower())))
                 {
-                    case "Fácil":
-                        Puntuacion += 100;
-                        break;
-                    case "Media":
-                        Puntuacion += 300;
-                        break;
-                    case "Difícil":
-                        Puntuacion += 500;
-                        break;
+                    switch (PeliculaActual.Nivel)
+                    {
+                        case "Fácil":
+                            Puntuacion += 100;
+                            break;
+                        case "Media":
+                            Puntuacion += 300;
+                            break;
+                        case "Difícil":
+                            Puntuacion += 500;
+                            break;
+                    }
+                    SiguientePelicula();
                 }
-                SiguientePelicula();
             }
         }
         public void SiguientePelicula()
@@ -250,22 +232,15 @@ namespace Juego_de_películas
         {
             if (PeliculaActual.Titulo != "" && PeliculaActual.Cartel != "" && PeliculaActual.Nivel != "" && PeliculaActual.Pista != "" && PeliculaActual.Genero != "")
             {
-                if (JsonCargado)
+                if (!ListaPeliculas.Contains(PeliculaActual))
                 {
-                    if (!ListaPeliculas.Contains(PeliculaActual))
-                    {
-                        ListaPeliculas.Add(PeliculaActual);
-                    }
-                    else
-                    {
-                        MessageBox.Show("La película Ya existia y no se a añadido nuevamente", "Coincidencia Encontrada", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                    Editar = false;
+                    ListaPeliculas.Add(PeliculaActual);
                 }
                 else
                 {
-                    MessageBox.Show("Primero abre un JSON");
+                    MessageBox.Show("La película Ya existia y no se a añadido nuevamente", "Coincidencia Encontrada", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
+                Editar = false;
             }
             else
             {
@@ -301,12 +276,6 @@ namespace Juego_de_películas
                 }
             }
             return sb.ToString().Normalize(NormalizationForm.FormC);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
