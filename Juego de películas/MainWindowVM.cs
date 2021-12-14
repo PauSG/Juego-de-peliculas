@@ -285,6 +285,7 @@ namespace Juego_de_películas
                 MessageBox.Show("Para registrar y guardar cualquier modificacion (Editar, añadir o eliminar película) antes de cerrar la aplicación darle al boton de \"Guardar en JSON\"", "Información Sobre las modificaciones", MessageBoxButton.OK, MessageBoxImage.Information);
                 informarSobreModificaciones = true;
             }
+            PeliculaActual = null;
         }
         public void EliminarPelicula()
         {
