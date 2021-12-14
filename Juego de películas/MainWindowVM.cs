@@ -109,6 +109,14 @@ namespace Juego_de_películas
             set { SetProperty(ref juegoActivo, value); }
         }
 
+        private bool pistaActivada;
+
+        public bool PistaActivada
+        {
+            get { return pistaActivada; }
+            set { SetProperty(ref pistaActivada, value); }
+        }
+
 
         public void NuevaPartida()
         {
@@ -148,6 +156,7 @@ namespace Juego_de_películas
             JuegoInactivo = true;
             JuegoActivo = false;
             PeliculaActual = null;
+            TituloTextBox = "";
         }
         public void Validar()
         {
@@ -155,19 +164,43 @@ namespace Juego_de_películas
             {
                 if (QuitarAcentos(TituloTextBox).ToLower().Equals(QuitarAcentos(PeliculaActual.Titulo.ToLower())))
                 {
-                    switch (PeliculaActual.Nivel)
+                    if (PistaActivada == false)
                     {
-                        case "Fácil":
-                            Puntuacion += 100;
-                            break;
-                        case "Media":
-                            Puntuacion += 300;
-                            break;
-                        case "Difícil":
-                            Puntuacion += 500;
-                            break;
+                        switch (PeliculaActual.Nivel)
+                        {
+                            case "Fácil":
+                                Puntuacion += 100;
+                                break;
+                            case "Media":
+                                Puntuacion += 300;
+                                break;
+                            case "Difícil":
+                                Puntuacion += 500;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (PeliculaActual.Nivel)
+                        {
+                            case "Fácil":
+                                Puntuacion += 100/2;
+                                break;
+                            case "Media":
+                                Puntuacion += 300/2;
+                                break;
+                            case "Difícil":
+                                Puntuacion += 500/2;
+                                break;
+                        }
                     }
                     SiguientePelicula();
+                    TituloTextBox = "";
+                    PistaActivada = false;
+                }
+                else
+                {
+                    MessageBox.Show("Te has equivocado de película, intentalo otra vez");
                 }
             }
         }
