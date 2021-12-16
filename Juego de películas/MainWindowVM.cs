@@ -312,5 +312,9 @@ namespace Juego_de_películas
             }
             return sb.ToString().Normalize(NormalizationForm.FormC);
         }
+        public void DeseleccionarPelicula()
+        {
+            PeliculaActual = null;
+        }
     }
 }
